@@ -33,16 +33,23 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 
 // routes (great implementation)
 app.get("/", (req, res) => {
-    res.render("index"); // home route
+    res.render("index"); // home route with the two forms (see views/index.ejs)
 });
 
 // form submission
 app.post("/shorten", async (req, res) => {
-    const { longUrl } = req.body; // get longUrl from form data
+    const { longUrl } = req.body; // get longUrl from form data (should contain a URL)
+
+    // check if longUrl is valid
+    if (!longUrl) async () =>{
+        return res.status(400).send("Please provide a URL"); // 400 if no longUrl
+    };
+    // IF VALID THEN
+
     const id = nanoid(6); // generate a random id with 6 characters using the nanoid package because it's too much effort to make a custom function
     const db = await dbPromise; // get db instance
 
-
+    
     // check if longUrl is already in the database
     const existingUrl = await db.get("SELECT id FROM urls WHERE longUrl = ?", longUrl); // get id from urls table where longUrl is the same as the one in the form data
     if (existingUrl){
@@ -88,6 +95,11 @@ app.get("/stats/:id", async (req, res) => {
     } else {
         res.status(404).send("Not Found"); // 404 if id doesn't exist
     }
+});
+
+// 404 route
+app.use((req, res) => {
+    res.status(404).send("Not Found"); // 404 for all other routes that don't exist (e.g. \\a or any other route that is a bit off)
 });
 
 // listen
