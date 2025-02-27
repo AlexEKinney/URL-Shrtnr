@@ -14,11 +14,13 @@
 <body class="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
     <div class="w-full max-w-md bg-gray-200 p-6 rounded-lg shadow-lg dark:bg-gray-700">
         <h1 class="text-2xl font-bold text-center mb-4 dark:text-white">URL Shortener</h1>
+        
         <form action="/shorten" method="POST" class="flex flex-col space-y-3">
             <input type="url" name="longUrl" required placeholder="Enter long URL" 
                 class="p-2 border rounded w-full dark:bg-gray-800 dark:text-white">
             <button type="submit" class="bg-blue-500 text-white p-2 rounded">Shorten</button>
         </form>
+
         <% if (typeof shortUrl !== "undefined") { %>
             <div class="mt-4 p-2 bg-green-100 text-center rounded">
                 <p>Short URL: <a href="<%= shortUrl %>" class="text-blue-600"><%= shortUrl %></a></p>
@@ -28,11 +30,32 @@
                         <img src="<%= qrCode %>" alt="QR Code">
                     </div>
                 <% } %>
+                <p class="mt-2">
+                    <a href="/stats/<%= shortUrl.split('/').pop() %>" class="text-blue-600 underline">View Stats</a>
+                </p>
             </div>
         <% } %>
+
+        <div class="mt-6 p-4 bg-white dark:bg-gray-800 rounded shadow">
+            <h2 class="text-lg font-bold dark:text-white text-center">Check URL Stats</h2>
+            <form action="/stats" method="GET" class="flex flex-col space-y-3 stats">
+                <input type="text" name="id" required placeholder="Enter short URL ID (e.g., abc123)" 
+                    class="p-2 border rounded w-full dark:bg-gray-800 dark:text-white">
+                <button type="submit" class="bg-blue-500 text-white p-2 rounded">View Stats</button>
+            </form>
+        </div>
     </div>
+
+    <a href="https://github.com/AlexEKinney/URL-Shrtnr" class="fixed bottom-4 right-4">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo" class="w-12 h-12">
+    </a>
+    <script>
+        // ensure that the stats form goes to /stats/id instead of /stats/?id
+        document.querySelector(".stats").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const id = this.querySelector("input").value;
+            window.location.href = `/stats/${id}`;
+        });
+    </script>
 </body>
-<a href="https://github.com/AlexEKinney/URL-Shrtnr" class="fixed bottom-4 right-4">
-    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo" class="w-12 h-12">
-</a>
 </html>

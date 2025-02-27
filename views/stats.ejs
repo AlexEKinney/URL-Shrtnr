@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="URL Statistics">
+    <meta name="author" content="Alex Kinney">
+    <meta name="keywords" content="URL, Shortener, Stats, Analytics, Links">
+    <meta name="robots" content="index, follow">
+    <title>URL Statistics</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="w-full max-w-md bg-gray-200 p-6 rounded-lg shadow-lg dark:bg-gray-700">
+        <h1 class="text-2xl font-bold text-center mb-4 dark:text-white">URL Statistics</h1>
+        
+        <div class="p-4 bg-white dark:bg-gray-800 rounded shadow">
+            <p class="text-lg dark:text-white"><strong>Original URL:</strong> 
+                <!-- url link -->
+                <a href="<%= url.longUrl %>" class="text-blue-600" target="_blank"><%= url.longUrl %></a> 
+            </p>
+
+            <p class="mt-2 text-lg dark:text-white"><strong>Short URL:</strong> 
+                <!-- shortened url link -->
+                <a href="<%= protocol %>://<%= host %>/<%= url.id %>" class="text-blue-600" target="_blank">
+                    <%= protocol %>://<%= host %>/<%= url.id %>
+                </a>
+            </p>
+            <!-- number of clicks -->
+            <p class="mt-2 text-lg dark:text-white"><strong>Clicks:</strong> <%= url.clicks %></p>
+        </div>
+
+        <a href="/" class="block mt-4 text-center text-white bg-blue-500 p-2 rounded">Back to Home</a>
+    </div>
+</body>
+<a href="https://github.com/AlexEKinney/URL-Shrtnr" class="fixed bottom-4 right-4">
+    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo" class="w-12 h-12">
+</a>
+</html>

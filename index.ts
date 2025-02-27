@@ -19,7 +19,8 @@ const dbPromise = open({
     await db.exec(`
         CREATE TABLE IF NOT EXISTS urls ( 
         id TEXT PRIMARY KEY,
-        longUrl TEXT NOT NULL
+        longUrl TEXT NOT NULL,
+        clicks INTEGER DEFAULT 0
         )
         `) // create table if not exists, with id and longUrl columns (id is primary key)
 })();
@@ -65,12 +66,29 @@ app.post("/shorten", async (req, res) => {
 app.get("/:id", async (req, res) => {
     const db = await dbPromise; // get db instance
     const row = await db.get("SELECT longUrl FROM urls WHERE id = ?", req.params.id); // get longUrl from urls table where id is the same as the one in the url
+
+
     if (row){
         res.redirect(row.longUrl); // redirect to longUrl
+        // add 1 to the click count
+        await db.run("UPDATE urls SET clicks = clicks + 1 WHERE id = ?", req.params.id); // update clicks in urls table where id is the same as the one in the url
     } else {
         res.status(404).send("Not Found"); // 404 if id doesn't exist
     }
 })
+
+// stats route
+app.get("/stats/:id", async (req, res) => {
+
+    const db = await dbPromise; // get db instance
+    const row = await db.get("SELECT * FROM urls WHERE id = ?", req.params.id); // get all data from urls table where id is the same as the one in the url
+
+    if (row){
+        res.render("stats", { url: row, host: req.get("host"), protocol: req.protocol }); // render stats view with row data
+    } else {
+        res.status(404).send("Not Found"); // 404 if id doesn't exist
+    }
+});
 
 // listen
 app.listen(port, () => {
