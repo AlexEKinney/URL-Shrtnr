@@ -177,3 +177,6 @@ dist
 # Database files
 *.sqlite
 *.sqlite3
+
+# Uploads
+uploads/
