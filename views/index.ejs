@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="URL Shortener">
-    <meta name="author" content="Alex Kinney">
-    <meta name="keywords" content="URL, Shortener, Shorten, Link, Links">
-    <meta name="robots" content="index, follow">
-    <title>URL Shortener</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-</head>
+<%- include('../partials/head', { title: "URL Shortener" }) %>
 <body class="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
     <div class="w-full max-w-md bg-gray-200 p-6 rounded-lg shadow-lg dark:bg-gray-700">
         <h1 class="text-2xl font-bold text-center mb-4 dark:text-white">URL Shortener</h1>
@@ -20,7 +8,6 @@
                 class="p-2 border rounded w-full dark:bg-gray-800 dark:text-white">
             <button type="submit" class="bg-blue-500 text-white p-2 rounded">Shorten</button>
         </form>
-
         <% if (typeof shortUrl !== "undefined") { %>
             <div class="mt-4 p-2 bg-green-100 text-center rounded">
                 <p>Short URL: <a href="<%= shortUrl %>" class="text-blue-600"><%= shortUrl %></a></p>
@@ -45,7 +32,6 @@
             </form>
         </div>
     </div>
-
     <a href="https://github.com/AlexEKinney/URL-Shrtnr" class="fixed bottom-4 right-4">
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo" class="w-12 h-12">
     </a>
