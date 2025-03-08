@@ -44,7 +44,7 @@
         // ensure that the stats form goes to /stats/id instead of /stats/?id
         document.querySelector(".stats").addEventListener("submit", function (event) {
             event.preventDefault();
-            const id = this.querySelector("input").value;
+            const id = encodeURIComponent(this.querySelector("input").value);
             window.location.href = `/stats/${id}`;
         });
     </script>
